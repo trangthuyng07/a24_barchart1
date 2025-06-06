@@ -2,28 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>A24 Bar Chart1</title>
+  <title>A24 Gallery</title>
   <link rel="stylesheet" href="./inspector.css">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+    }
+
+    #observable-gallery {
+      padding: 20px;
+      overflow: auto;
+      height: 100%;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
+  <!-- 🔽 Chỗ để Observable gắn gallery -->
+  <div id="observable-gallery"></div>
+
   <script type="module">
     import define from "./index.js";
     import {Runtime, Inspector} from "./runtime.js";
 
     const runtime = new Runtime();
-    // Chỉ hiện cell tên "chart"
-    runtime.module(define, name => {
-      if (name === "chart") return Inspector.into(document.body)();
-      return true; // Bỏ qua cell khác → không hiển thị d3, data, runtimeData
-    });
+    const main = runtime.module(define);
+
+    // Gắn đúng "viewof gallery"
+    main.variable(Inspector.into("#observable-gallery")("viewof gallery"));
   </script>
 </body>
 </html>
